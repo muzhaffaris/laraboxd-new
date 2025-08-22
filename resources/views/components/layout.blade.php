@@ -32,7 +32,7 @@
         </nav>
     </header>
 
-    <main class="container">
+    <main>
         {{$slot}}
     </main>
 
