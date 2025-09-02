@@ -37,10 +37,22 @@
         {{$slot}}
     </main>
 
+    <footer>
+        <div class="bg-greyish-blueish py-3 text-gray-400">
+            <div class="flex gap-3 justify-center items-center">
+                <p id="movie-quote"></p>
+            </div>
+            <div class="flex pt-2 gap-3 justify-center items-center">
+                <p>2025 Laraboxd</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const navLinks = document.querySelector(".nav-links")
-        function onToggleMenu(e){
-            if (e.name == "menu"){
+
+        function onToggleMenu(e) {
+            if (e.name == "menu") {
                 e.name = "close";
                 navLinks.classList.add("top-[7vh]");
             } else {
@@ -49,6 +61,23 @@
             }
 
         }
+
+    </script>
+    <script>
+        const apiUrl = 'https://api.allorigins.win/raw?url=https://quoteapi.pythonanywhere.com/random'
+        //const apiUrl = 'https://quoteapi.pythonanywhere.com/random';
+        const quoteP = document.querySelector("#movie-quote")
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                quoteP.textContent = `\"${data.Quotes[0].quote}\"`;
+            })
+            .catch(error => {
+                console.error('Error:', error)
+                quoteP.textContent = "Just Keep Swimming";
+            });
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
