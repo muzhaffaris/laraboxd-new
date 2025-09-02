@@ -16,7 +16,11 @@
 }
 
 body {
-    @apply bg-dark-blue text-white
+    @apply bg-dark-blue text-white flex-col flex min-h-[100vh] m-0
+}
+
+main {
+    @apply grow
 }
 
 h1 {

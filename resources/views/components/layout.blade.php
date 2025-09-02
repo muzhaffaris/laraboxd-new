@@ -12,7 +12,9 @@
     <header class="bg-greyish-blueish">
         <nav class="flex justify-between items-center w-[90%] mx-auto">
             <div>
-                <img class="w-16 p-4" src="{{ asset('images/logo.svg') }}" alt="logo">
+                <a href="/">
+                    <img class="w-16 p-4" src="{{ asset('images/logo.svg') }}" alt="logo">
+                </a>
             </div>
             <div class="nav-links md:static absolute bg-greyish-blueish md:min-h-fit min-h-[20vh] left-0 top-[-100%] md:w-auto w-full flex items-center px-5 justify-center md:justify-start">
                 <ul class="flex md:flex-row flex-col items-center md:gap-6 gap-8 ">
@@ -23,7 +25,9 @@
                         <a href="#" class="hover:text-gray-500">Reviews</a>
                     </li>
                     <li>
-                        <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Sign In</button>
+                        <a href="{{ route('show.login') }}">
+                            <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log In</button>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -78,6 +82,7 @@
                 console.error('Error:', error)
                 quoteP.textContent = "Just Keep Swimming";
             });
+
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

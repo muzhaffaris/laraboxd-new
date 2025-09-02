@@ -20,6 +20,7 @@
             </h3>
             <hr class="mb-3 mt-1">
             <div class="grid md:grid-cols-2 gap-4 justify-items-center md:justify-items-stretch">
+                {{-- card start --}}
                 <div class="min-h-[25vh] bg-slate-200 grid grid-cols-3 grid-rows-3 gap-4 p-3 w-full max-w-sm md:max-w-none md:m-0">
                     <div class="row-span-2 md:col-span-1 bg-white">
                         <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aQPvW8ksMBpmRVIRJXskryoSq6f.jpg" class="w-full h-full object-cover" alt="Movie Poster">
@@ -44,7 +45,8 @@
                         aslkdja lkasjd l kajd laksd lkajsd
                     </div>
                 </div>
-            </div>
+                {{-- card end --}}
+            </div>          
         </div>
     </div>
 </x-layout>
