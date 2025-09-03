@@ -29,6 +29,11 @@
                             <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log In</button>
                         </a>
                     </li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="post">
+                            <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log Out</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
             <div class="md:hidden">
