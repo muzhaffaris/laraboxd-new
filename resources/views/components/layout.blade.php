@@ -24,16 +24,22 @@
                     <li>
                         <a href="#" class="hover:text-gray-500">Reviews</a>
                     </li>
-                    <li>
-                        <a href="{{ route('show.login') }}">
-                            <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log In</button>
-                        </a>
-                    </li>
-                    <li>
-                        <form action="{{ route('logout') }}" method="post">
-                            <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log Out</button>
-                        </form>
-                    </li>
+                    @guest
+                        <li>
+                            <a href="{{ route('show.login') }}">
+                                <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log In</button>
+                            </a>
+                        </li>    
+                    @endguest
+                    @auth
+                        <li class="flex flex-row justify-center content-center items-center">
+                            <p class="pe-3 text-gray-500">Hello, {{ Auth::user()->name }}</p>
+                            <form action="{{ route('logout') }}" method="post">
+                                @csrf
+                                <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log Out</button>
+                            </form>
+                        </li>                        
+                    @endauth
                 </ul>
             </div>
             <div class="md:hidden">
