@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laraboxd</title>
     <link rel="icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     @vite('resources/css/app.css')
 
@@ -19,26 +20,26 @@
             <div class="nav-links md:static absolute bg-greyish-blueish md:min-h-fit min-h-[20vh] left-0 top-[-100%] md:w-auto w-full flex items-center px-5 justify-center md:justify-start">
                 <ul class="flex md:flex-row flex-col items-center md:gap-6 gap-8 ">
                     <li>
-                        <a href="#" class="hover:text-gray-500">Films</a>
+                        <a href="{{ route('movies') }}" class="hover:text-gray-500">Films</a>
                     </li>
                     <li>
                         <a href="#" class="hover:text-gray-500">Reviews</a>
                     </li>
                     @guest
-                        <li>
-                            <a href="{{ route('show.login') }}">
-                                <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log In</button>
-                            </a>
-                        </li>    
+                    <li>
+                        <a href="{{ route('show.login') }}">
+                            <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log In</button>
+                        </a>
+                    </li>
                     @endguest
                     @auth
-                        <li class="flex flex-row justify-center content-center items-center">
-                            <p class="pe-3 text-gray-500">Hello, {{ Auth::user()->name }}</p>
-                            <form action="{{ route('logout') }}" method="post">
-                                @csrf
-                                <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log Out</button>
-                            </form>
-                        </li>                        
+                    <li class="flex flex-row justify-center content-center items-center">
+                        <p class="pe-3 text-gray-500">Hello, {{ Auth::user()->name }}</p>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button class="bg-[#1E1E1E] px-5 py-2 hover:bg-white hover:text-black transition cursor-pointer">Log Out</button>
+                        </form>
+                    </li>
                     @endauth
                 </ul>
             </div>
@@ -80,7 +81,6 @@
     </script>
     <script>
         const apiUrl = 'https://api.allorigins.win/raw?url=https://quoteapi.pythonanywhere.com/random'
-        //const apiUrl = 'https://quoteapi.pythonanywhere.com/random';
         const quoteP = document.querySelector("#movie-quote")
 
         fetch(apiUrl)

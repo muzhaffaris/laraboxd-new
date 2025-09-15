@@ -35,4 +35,65 @@ class MovieController extends Controller
 
         return view('home', ['topMovieData' => $topPopMovies]);
     }
+
+    public function movies()
+    {
+        return view('movies');
+    }
+
+    public function moviesApiProxy(Request $request)
+    {
+
+        try {
+            $apiKey = env('TMDB_API_KEY');
+            $baseUrl = env('TMDB_API_BASE_URL');
+
+            $page = $request->query('page', '1');
+            $search = $request->query('search_query', false);
+
+            $response = Http::acceptJson()->withToken(
+                $apiKey
+            )->get(
+                sprintf("%s/discover/movie?sort_by=popularity.desc&page=%s", $baseUrl, $page)
+            );
+
+            if ($response->successful()) {
+                return response()->json($response->json());
+            }
+
+            // Handle non-successful responses
+            return response()->json(['error' => 'Failed to fetch data from external API'], $response->status());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred.'], 500);
+        }
+    }
+
+    public function moviesSearchApiProxy(Request $request)
+    {
+
+        try {
+            $apiKey = env('TMDB_API_KEY');
+            $baseUrl = env('TMDB_API_BASE_URL');
+
+            $page = $request->query('page', '1');
+            $search = $request->query('search_query', false);
+
+            if ($search) {
+                $response = Http::acceptJson()->withToken(
+                    $apiKey
+                )->get(
+                    sprintf("%s/search/movie?query=%s&include_adult=false&page=%s", $baseUrl, $search, $page)
+                );
+
+                if ($response->successful()) {
+                    return response()->json($response->json());
+                }
+            }
+
+            // Handle non-successful responses
+            return response()->json(['error' => 'Failed to fetch data from external API'], $response->status());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred.'], 500);
+        }
+    }
 }
