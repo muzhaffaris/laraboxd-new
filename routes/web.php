@@ -14,7 +14,7 @@ Route::middleware('guest')->controller(AuthController::class)->group(function ()
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout")->middleware('auth');
 
 Route::get('/', [MovieController::class, 'home'])->name('home');
-Route::get('/movie', [MovieController::class, 'movie'])->name('movie');
+Route::get('/movie/{movieId}', [MovieController::class, 'movie'])->name('movie');
 Route::get('/movies', [MovieController::class, 'movies'])->name('movies');
 
 Route::get('/api/movies', [MovieController::class, 'moviesApiProxy'])->name('moviesApiProxy');

@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movie_log', function (Blueprint $table) {
+        Schema::create('want_to_watches', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId("user_id")->constrained()->onDelete('cascade');
+            $table->tinyText("tmdb_movie_id");
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movie_log');
+        Schema::dropIfExists('want_to_watches');
     }
 };

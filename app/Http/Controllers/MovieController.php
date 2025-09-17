@@ -41,6 +41,27 @@ class MovieController extends Controller
         return view('movies');
     }
 
+    public function movie($movieId)
+    {
+        $apiKey = env('TMDB_API_KEY');
+        $baseUrl = env('TMDB_API_BASE_URL');
+
+        $response = Http::acceptJson()->withToken(
+            $apiKey
+        )->get(
+            sprintf("%s/movie/%s?language=en-US", $baseUrl, $movieId)
+        );
+
+        if ($response->successful()) {
+            $movieData = $response->json();
+            // print_r($movieData);
+        } else {
+            return view('error_view')->with('error', 'Could not fetch data from the TMDB API.');
+        }
+
+        return view('movie', ['movieData' => $movieData]);
+    }
+
     public function moviesApiProxy(Request $request)
     {
 

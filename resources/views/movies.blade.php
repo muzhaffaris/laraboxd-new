@@ -10,13 +10,13 @@
 
 
     <script>
-        function getMovieImg(posterPath, movieTitle) {
-            return ` <a href="{{ route('movie') }}">
+        function getMovieImg(posterPath, movieTitle, movieId) {
+            return ` <a href="/movie/${movieId}">
                         <div class="min-w-44 min-h-96">
+
                             <img src="https://image.tmdb.org/t/p/original${posterPath}" class="" alt="${movieTitle}">
                         </div>
                     </a>
-
             `;
         }
 
@@ -48,7 +48,7 @@
                     if (moviesArr.length >= 1) {
                         for (let i = 0; i < moviesArr.length; i++) {
                             var movie = moviesArr[i];
-                            const movieImg = getMovieImg(movie.poster_path, movie.title);
+                            const movieImg = getMovieImg(movie.poster_path, movie.title, movie.id);
                             moviesContainer.append(movieImg);
                         }
                     } else {
@@ -90,7 +90,7 @@
                             if (moviesArr.length >= 1) {
                                 for (let i = 0; i < moviesArr.length; i++) {
                                     var movie = moviesArr[i];
-                                    const movieImg = getMovieImg(movie.poster_path, movie.title);
+                                    const movieImg = getMovieImg(movie.poster_path, movie.title, movie.id);
                                     moviesContainer.append(movieImg);
                                 }
                             } else {
@@ -122,7 +122,7 @@
                         if (moviesArr.length >= 1) {
                             for (let i = 0; i < moviesArr.length; i++) {
                                 var movie = moviesArr[i];
-                                const movieImg = getMovieImg(movie.poster_path, movie.title);
+                                const movieImg = getMovieImg(movie.poster_path, movie.title, movie.id);
                                 moviesContainer.append(movieImg);
                             }
                         } else {

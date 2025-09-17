@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -44,5 +45,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get all of the movie logs for the User.
+     */
+    public function movieLogs(): HasMany
+    {
+        return $this->hasMany(MovieLog::class);
+    }
+
+    /**
+     * Get all of the want_to_watches for the User.
+     */
+    public function wantToWatches(): HasMany
+    {
+        return $this->hasMany(WantToWatch::class);
     }
 }
