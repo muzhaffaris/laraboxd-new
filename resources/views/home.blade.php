@@ -20,33 +20,35 @@
             </h3>
             <hr class="mb-3 mt-1">
             <div class="grid md:grid-cols-2 gap-4 justify-items-center md:justify-items-stretch">
+                @foreach($reviews as $review)
                 {{-- card start --}}
-                <div class="min-h-[25vh] bg-slate-200 grid grid-cols-3 grid-rows-3 gap-4 p-3 w-full max-w-sm md:max-w-none md:m-0">
-                    <div class="row-span-2 md:col-span-1 bg-white">
-                        <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aQPvW8ksMBpmRVIRJXskryoSq6f.jpg" class="w-full h-full object-cover" alt="Movie Poster">
+                <div class="min-h-[25vh] bg-greyish-blueish grid grid-cols-3 grid-rows-3 gap-4 p-3 w-full max-w-sm md:max-w-none md:m-0">
+                    <div class="row-span-2 md:col-span-1">
+                        <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2{{ $review["moviePoster"] }}" class="w-full h-full object-cover" alt="Movie Poster">
                     </div>
 
-                    <div class="flex flex-col justify-between h-full bg-amber-700 p-3 row-span-2 md:col-span-2">
+                    <div class="flex flex-col justify-between h-full p-3 row-span-2 md:col-span-2">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12">
                                 <img src="{{ asset('images/defaultpp.png') }}" class="rounded-full w-full h-full object-cover" alt="User Profile Picture">
                             </div>
-                            <p class="text-white font-semibold">Username</p>
+                            <p class="text-white font-semibold">{{ $review["username"] }}</p>
                         </div>
 
                         <div class="text-white flex flex-col gap-2 mt-auto">
-                            <h4>Upload</h4>
-                            <p>2025</p>
-                            <p>9/10⭐</p>
+                            <h4>{{ $review["movieTitle"] }}</h4>
+                            <p>{{ $review["movieYear"] }}</p>
+                            <p>{{ $review["rating"] }}/10⭐</p>
                         </div>
                     </div>
 
-                    <div class="col-span-3 row-start-3 bg-amber-300 p-3">
-                        aslkdja lkasjd l kajd laksd lkajsd
+                    <div class="col-span-3 row-start-3 p-3">
+                        {{ $review["review"] }}
                     </div>
                 </div>
                 {{-- card end --}}
-            </div>          
+                @endforeach
+            </div>
         </div>
     </div>
 </x-layout>

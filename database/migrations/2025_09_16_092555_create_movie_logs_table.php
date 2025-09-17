@@ -16,8 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId("user_id")->constrained()->onDelete('cascade');
             $table->boolean("liked");
-            $table->integer("rating")->nullable()->change();
-            $table->text("review")->nullable()->change();
+            $table->integer("rating")->nullable();
+            $table->text("review")->nullable();
             $table->tinyText("tmdb_movie_id");
         });
     }
