@@ -15,6 +15,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name("logout")->middl
 
 Route::get('/', [MovieController::class, 'home'])->name('home');
 Route::get('/movie/{movieId}', [MovieController::class, 'movie'])->name('movie');
+Route::get('/movie/{movieId}/addReview', [MovieController::class, 'addReviewPage'])->name('addReviewPage');
+Route::post('/addReview/{movieId}', [MovieController::class, 'addReview'])->name('addReview');
 Route::get('/movies', [MovieController::class, 'movies'])->name('movies');
 
 Route::get('/api/movies', [MovieController::class, 'moviesApiProxy'])->name('moviesApiProxy');

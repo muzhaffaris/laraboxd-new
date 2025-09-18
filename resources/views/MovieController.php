@@ -130,17 +130,12 @@ class MovieController extends Controller
     public function addReview(Request $request, $movieId)
     {
         if (Auth::check()) {
+            $movie = $this->getMovieFromTMDBAPI($movieId);
             $validated = $request->validate([
                 'rating' => 'required|integer|min:1|max:10',
-                'review' => 'required|string|max:1000',
+                'review' => 'required|string|max:1000'
             ]);
-            $validated['user_id'] = Auth::id();
-            $validated['liked'] = $request->has('liked');
-            $validated['tmdb_movie_id'] = $movieId;
-
-            MovieLog::create($validated);
-
-            return redirect(sprintf("movie/", $movieId));
+            return redirect('movie', $movieId);
         } else {
             return redirect('login');
         }
