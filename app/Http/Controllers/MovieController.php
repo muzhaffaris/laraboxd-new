@@ -64,7 +64,7 @@ class MovieController extends Controller
         $reviewsDispArr = array();
 
         foreach ($movLogs as $movLog) {
-            print_r($movLog->review);
+            // print_r($movLog->review);
             $username = User::find($movLog->user_id)->name;
             $review = $movLog->review;
             $movie = $this->getMovieFromTMDBAPI($movLog->tmdb_movie_id);
@@ -72,7 +72,7 @@ class MovieController extends Controller
             $movieYear = substr($movie["release_date"], 0, 4);
             $moviePoster = $movie["poster_path"];
             $rating = $movLog->rating;
-            array_push($reviewsDispArr, ["username" => $username, "review" => $review, "movieTitle" => $movieTitle, "movieYear" => $movieYear, "rating" => $rating, "moviePoster" => $moviePoster]);
+            array_push($reviewsDispArr, ["username" => $username, "review" => $review, "movieTitle" => $movieTitle, "movieYear" => $movieYear, "rating" => $rating, "moviePoster" => $moviePoster, "movId" => $movLog->tmdb_movie_id]);
         }
 
         return view('home', ['topMovieData' => $topPopMovies, 'reviews' => $reviewsDispArr]);
@@ -110,10 +110,27 @@ class MovieController extends Controller
             $username = User::find($movLog->user_id)->name;
             $review = $movLog->review;
             $rating = $movLog->rating;
-            array_push($reviewsDispArr, ["username" => $username, "review" => $review, "rating" => $rating]);
+            $liked = $movLog->liked;
+            array_push($reviewsDispArr, ["username" => $username, "review" => $review, "rating" => $rating, "liked" => $liked]);
         }
 
-        return view('movie', ['movieData' => $movieData, 'reviews' => $reviewsDispArr]);
+        //check if movie has been reviewed by the authenticated user
+        $userId = Auth::id();
+        $userMovLog = MovieLog::where('user_id', $userId)->where('tmdb_movie_id', $movieId)->first();
+        if ($userMovLog === null) {
+            $userReviewId = false;
+            $userLiked = false;
+        } else {
+            $userReviewId = $userMovLog->id;
+            $userLiked = $userMovLog->liked;
+        }
+
+        return view('movie', [
+            'movieData' => $movieData,
+            'reviews' => $reviewsDispArr,
+            "userReviewId" => $userReviewId,
+            "userLiked" => $userLiked
+        ]);
     }
 
     public function addReviewPage($movieId)
@@ -140,10 +157,58 @@ class MovieController extends Controller
 
             MovieLog::create($validated);
 
-            return redirect(sprintf("movie/", $movieId));
+            return redirect(sprintf("movie/%s", $movieId));
         } else {
             return redirect('login');
         }
+    }
+
+    public function updateReviewPage($reviewId)
+    {
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        // Find a record by its primary key (id)
+        $review = MovieLog::find($reviewId);
+        $reviewText = $review->review;
+        $rating = $review->rating;
+        $liked = $review->liked;
+        $movieTitle = $this->getMovieFromTMDBAPI($review->tmdb_movie_id)["title"];
+
+        $reviewData = [
+            "review" => $reviewText,
+            "rating" => $rating,
+            "liked" => $liked
+        ];
+
+        return view('update_review', ["movieTitle" => $movieTitle, "reviewData" => $reviewData, "reviewId" => $reviewId]);
+    }
+
+    public function updateReview(Request $request, $reviewId)
+    {
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        $review = MovieLog::find($reviewId);
+        if (!$review) {
+            return redirect()->back()->with('error', 'Review not found.');
+        }
+
+        if ($review->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'You are not authorized to update this review.');
+        }
+
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:10',
+            'review' => 'required|string|max:1000',
+        ]);
+        $validated['liked'] = $request->has('liked');
+
+        $review->update($validated);
+
+        return redirect(sprintf("movie/%s", $review->tmdb_movie_id))->with('success', 'Review updated successfully!');
     }
 
     public function moviesApiProxy(Request $request)

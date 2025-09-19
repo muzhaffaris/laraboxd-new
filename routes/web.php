@@ -10,13 +10,16 @@ Route::middleware('guest')->controller(AuthController::class)->group(function ()
     Route::post('/register', 'register')->name("register");
     Route::post('/login', 'login')->name("login");
 });
-
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout")->middleware('auth');
 
 Route::get('/', [MovieController::class, 'home'])->name('home');
+
 Route::get('/movie/{movieId}', [MovieController::class, 'movie'])->name('movie');
 Route::get('/movie/{movieId}/addReview', [MovieController::class, 'addReviewPage'])->name('addReviewPage');
+Route::get('/movie/updateReview/{reviewId}', [MovieController::class, 'updateReviewPage'])->name('updateReviewPage');
 Route::post('/addReview/{movieId}', [MovieController::class, 'addReview'])->name('addReview');
+Route::post('/updateReview/{reviewId}', [MovieController::class, 'updateReview'])->name('updateReview');
+
 Route::get('/movies', [MovieController::class, 'movies'])->name('movies');
 
 Route::get('/api/movies', [MovieController::class, 'moviesApiProxy'])->name('moviesApiProxy');

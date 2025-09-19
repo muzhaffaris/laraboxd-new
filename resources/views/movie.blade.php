@@ -12,14 +12,26 @@
             <div class="grid grid-cols-1 content-start">
                 <div class="flex flex-row gap-10 justify-center">
                     <ion-icon class="text-5xl" name="eye-outline"></ion-icon>
+                    @if($userLiked)
+                    <ion-icon class="text-5xl fill-red-400" name="heart"></ion-icon>
+                    @else
                     <ion-icon class="text-5xl" name="heart-outline"></ion-icon>
+                    @endif
                     <ion-icon class="text-5xl" name="add-circle-outline"></ion-icon>
                 </div>
+                @if($userReviewId)
+                <a href="{{ route('updateReviewPage', $userReviewId) }}">
+                    <div class="bg-bright-red hover:bg-red-400 h-15 mt-7 content-center text-center">
+                        <p class="text-3xl">Update Your Review</p>
+                    </div>
+                </a>
+                @else
                 <a href="{{$movieData["id"]}}/addReview">
                     <div class="bg-bright-red hover:bg-red-400 h-15 mt-7 content-center text-center">
                         <p class="text-3xl">Rate or Review</p>
                     </div>
                 </a>
+                @endif
                 <div class="flex flex-row gap-3 mt-3 content-center">
                     <h3>
                         TMDB Rating: {{number_format($movieData["vote_average"], 1) }}/10
@@ -51,7 +63,14 @@
                     </div>
                     <p>{{$review["username"]}}</p>
                 </div>
-                <p>{{ $review["rating"] }}/10⭐</p>
+                <div class="flex flex-row gap-3 content-center items-center">
+                    <p>{{ $review["rating"] }}/10⭐</p>
+                    @if($review["liked"] == 1)
+                    <ion-icon name="heart" class="fill-gray-500"></ion-icon>
+                    @else
+                    <ion-icon name="heart-outline"></ion-icon>
+                    @endif
+                </div>
                 <p class="mb-3">{{ $review["review"] }}</p>
             </div>
             {{-- card-end --}}
@@ -61,9 +80,6 @@
             @endif
 
         </div>
-
-
-
 
     </div>
 </x-layout>
